@@ -35,14 +35,14 @@ async function fetchProducts(page, pagination) {
       initPagination(responseJson.metadata.numberOfPages);
     }
     console.log(`for page ${page} response : ${responseJson.data}`);
-    updateProductSection(responseJson.data);
+    updateProductSection(responseJson.data,false);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 }
-function updateProductSection(products) {
+function updateProductSection(products,isNewArrival) {
   const productContainer = document.querySelector(
-    "#featured-products #product1 .pro-container"
+    `${isNewArrival?'#new-arrival':'#featured-products'} #product1 .pro-container`
   );
 
   productContainer.innerHTML = ""; // Clear previous products
@@ -104,35 +104,10 @@ async function fetchNewProducts() {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const responseJson = await response.json();
-    updateNewArrivalSection(responseJson.data);
+    updateProductSection(responseJson.data,true);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
-}
-function updateNewArrivalSection(products) {
-  const productContainer = document.querySelector(
-    "#new-arrival #product1 .pro-container"
-  );
-
-  productContainer.innerHTML = "";
-
-  products.forEach((product) => {
-    const productHTML = `
-            <div class="pro">
-                <img src="${product.imageCover}" alt="${product.title}">
-                <div class="des">
-                    <span>${product.brand.name}</span>
-                    <h5>${product.title}</h5>
-                    <div class="star">${generateStars(
-                      product.ratingsAverage
-                    )}</div>
-                    <h4>$${product.price}</h4>
-                </div>
-                <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-            </div>
-        `;
-    productContainer.innerHTML += productHTML;
-  });
 }
 function initPagination(numOfPages) {
   const pagination = document.querySelector("#pagination");
