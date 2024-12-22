@@ -35,14 +35,14 @@ async function fetchProducts(page, pagination) {
       initPagination(responseJson.metadata.numberOfPages);
     }
     console.log(`for page ${page} response : ${responseJson.data}`);
-    updateProductSection(responseJson.data,false);
+    updateProductSection(responseJson.data, false);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 }
-function updateProductSection(products,isNewArrival) {
+function updateProductSection(products, isNewArrival) {
   const productContainer = document.querySelector(
-    `${isNewArrival?'#new-arrival':'#featured-products'} #product1 .pro-container`
+    `${isNewArrival ? '#new-arrival' : '#featured-products'} #product1 .pro-container`
   );
 
   productContainer.innerHTML = ""; // Clear previous products
@@ -55,8 +55,8 @@ function updateProductSection(products,isNewArrival) {
                     <span>${product.brand.name}</span>
                     <h5>${product.title}</h5>
                     <div class="star">${generateStars(
-                      product.ratingsAverage
-                    )}</div>
+      product.ratingsAverage
+    )}</div>
                     <h4>$${product.price}</h4>
                 </div>
                 <a href="#" class="cart-btn"><i class="fa-solid fa-cart-shopping cart"></i></a>
@@ -104,7 +104,7 @@ async function fetchNewProducts() {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const responseJson = await response.json();
-    updateProductSection(responseJson.data,true);
+    updateProductSection(responseJson.data, true);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -177,3 +177,58 @@ function handleDetailsImages(length) {
     };
   }
 }
+
+// Login script
+async function getUserInfo() {
+  const response = await fetch('./login_feature/get_user_info.php');
+  const data = await response.json();
+  return data;
+}
+async function authUser() {
+  const userInfo = await getUserInfo();
+  // console.log("User info:" + JSON.stringify(userInfo));
+
+  if (userInfo.token) {
+    // User is logged in, proceed to checkout
+    // console.log("User is logged in. Redirecting to checkout...");
+    // POST products to api logic here
+    // TO-DO  
+  } else {
+    // User is not logged in showing pop up
+    // console.log("User not logged in. Redirecting to login page.");
+    const modalHTML = `
+    <div id="authModal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000;">
+        <div
+            style="background: #fff; padding: 20px; max-width: 400px; margin: 100px auto; text-align: center; border-radius: 8px;">
+            <h3>You need to log in or sign up to proceed</h3>
+            <button id="loginButton"
+                style="margin: 10px; padding: 10px 20px; background: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Log
+                In</button>
+            <button id="signupButton"
+                style="margin: 10px; padding: 10px 20px; background: #28A745; color: white; border: none; border-radius: 5px; cursor: pointer;">Sign
+                Up</button>
+            <button id="closeModalButton"
+                style="margin: 10px; padding: 10px 20px; background: #DC3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+        </div>
+    </div>
+`;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    document.getElementById('authModal').style.display = 'block';
+    // Modal Button Logic
+    document.getElementById('loginButton').addEventListener('click', () => {
+      window.location.href = './login_feature/login.php'; // Redirect to login page
+    });
+
+    document.getElementById('signupButton').addEventListener('click', () => {
+      window.location.href = './login_feature/signup.php'; // Redirect to sign-up page
+    });
+
+    document.getElementById('closeModalButton').addEventListener('click', () => {
+      // Close the modal
+      document.getElementById('authModal').style.display = 'none';
+    });
+
+  }
+}
+
