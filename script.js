@@ -197,19 +197,15 @@ async function authUser() {
     // User is not logged in showing pop up
     // console.log("User not logged in. Redirecting to login page.");
     const modalHTML = `
-    <div id="authModal"
-        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000;">
-        <div
-            style="background: #fff; padding: 20px; max-width: 400px; margin: 100px auto; text-align: center; border-radius: 8px;">
-            <h3>You need to log in or sign up to proceed</h3>
-            <button id="loginButton"
-                style="margin: 10px; padding: 10px 20px; background: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Log
-                In</button>
-            <button id="signupButton"
-                style="margin: 10px; padding: 10px 20px; background: #28A745; color: white; border: none; border-radius: 5px; cursor: pointer;">Sign
-                Up</button>
-            <button id="closeModalButton"
-                style="margin: 10px; padding: 10px 20px; background: #DC3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+   <div id="authModal">
+        <div id="PopUp-container">
+            <img src="assets/Asset 3.png" width="200px" style="margin-top: 10px;margin-bottom: 10px;" alt="">
+            <h3 style="margin-top:10px ;">Hello there,</h3>
+            <h3 style="margin-top:10px ;font-size: 16px;">You're almost there! Click the button below to Login or Sign
+                Up to proceed checkout</h3>
+            <button id="loginButton">Log In</button>
+            <button id="signupButton">Sign Up</button>
+            <button id="closeModalButton">Cancel</button>
         </div>
     </div>
 `;
