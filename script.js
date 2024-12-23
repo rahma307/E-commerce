@@ -217,11 +217,11 @@ async function authUser() {
     document.getElementById('authModal').style.display = 'block';
     // Modal Button Logic
     document.getElementById('loginButton').addEventListener('click', () => {
-      window.location.href = './login_feature/login.php'; // Redirect to login page
+      window.location.href = './login.html'; // Redirect to login page
     });
 
     document.getElementById('signupButton').addEventListener('click', () => {
-      window.location.href = './login_feature/signup.php'; // Redirect to sign-up page
+      window.location.href = './Signup.html'; // Redirect to sign-up page
     });
 
     document.getElementById('closeModalButton').addEventListener('click', () => {
